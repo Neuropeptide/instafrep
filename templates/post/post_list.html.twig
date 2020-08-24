@@ -1,0 +1,11 @@
+<ul class="post-list">
+    {% for post in posts %}
+        <li>
+            {% include 'post/post_card.html.twig' %}
+        </li>
+    {% else %}
+        <li>
+            {{ noPostMessage ?? "Aucun Post pour le moment" }}
+        </li>
+    {% endfor %}
+</ul>

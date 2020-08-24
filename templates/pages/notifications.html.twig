@@ -1,0 +1,35 @@
+{%extends "layouts/bootstrap.html.twig" %}
+
+
+{% block body %}
+{% include "includes/menu.html.twig" %}
+
+
+    {% block content %}
+        <div class="container mt-3">
+            <div class="list-group">
+                {% for notification in notifs %}
+                    <div class="list-group-item list-group-item-action">
+
+                        <a href="{{ path('app_post_single', { 'id' : notification.linkedPost.id }) }}">
+                            <div class="d-flex w-100 align-items-center">
+                                <div class="mb-1">
+                                    <a href="{{ path('app_user_profile_by_slug', {'slug' : notification.author.username}) }}">{{ notification.author.username }}</a>
+                                    {{ notification.content }} - <small> le  {{ notification.createdAt | date("d/m") }} à {{ notification.createdAt | date("H:i", "Europe/Paris") }}</small>
+                                </div>
+
+
+                                {% if notification.isRead == 0 %}
+                                    <form class="ml-auto" method="get" action="{{ path('app_notifs_close', {'id' : notification.id }) }}">
+                                        <button type="submit" class="btn btn-primary">Marquer comme lu</button>
+                                    </form>
+                                {%  endif %}
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endblock %}
+
+{% endblock %}

@@ -1,0 +1,24 @@
+
+
+
+{% extends 'layouts/with-sidebar.html.twig' %}
+{% block title %}
+        Liste des Groupes
+{% endblock %}
+
+{% block mainContent %}
+        <ul class="post-list">
+                {% for group in groups %}
+                        <li>
+                                {% include 'group/group_card_template.html.twig' %}
+                        </li>
+                {% else %}
+                        <li>
+                                {{ noPostMessage ?? "Aucun Groupe pour le moment" }}
+                        </li>
+                {% endfor %}
+        </ul>
+
+
+
+{% endblock %}

@@ -1,0 +1,46 @@
+<article
+    data-post_id="{{ post.id }}"
+    class="card post"
+>
+    <div class="card-header">
+
+        <a href="{{ path('app_post_single', { 'id': post.id }) }}">
+            <strong>
+                #{{ post.id }}
+            </strong>
+        </a>
+        {{ post.title }}
+
+        <strong>
+            by
+            <a
+                title="Lien vers le profil de {{ post.author.fullName }}"
+                href="{{ path('app_user_profile_by_slug', { 'slug' : post.author.slug }) }}">
+                {{ post.author.username }}
+                <img style="  border-radius: 45%" src="{{ asset('uploads/images/' ~ post.author.miniature) }}" alt="">
+
+            </a>
+        </strong>
+
+        {% if (post.papaGroup) is empty %}
+
+        {% else %}
+            publié dans :
+
+            <a href="{{ path('app_group_single', {'id' : post.papaGroup.id}) }}">
+                {{ post.papaGroup.name }}
+            </a>
+
+        {% endif %}
+    </div>
+
+    <div class="card-body">
+        <p class="card-text">
+            {{ post.content | markdown_to_html }}
+        </p>
+    </div>
+
+    <div class="card-footer">
+        {% include 'post/post_card_footer.html.twig' %}
+    </div>
+</article>

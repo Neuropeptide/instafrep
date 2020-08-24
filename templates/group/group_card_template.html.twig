@@ -1,0 +1,59 @@
+
+
+<div class="m-2 my-3 p-2 border-bottom border-primary">
+    <h2 class="text-primary" >
+            {{ group.name }}
+    </h2>
+    <p>
+        {{ group.description }}
+    </p>
+
+    <small>créé le {{ group.createdAt | date('d-m-Y') }}  par  {{ group.creator.userName }}</small>
+    <div class="card-text">
+
+        <strong class="mx-3">
+            <i class="far fa-comment-alt"></i>
+            {{ group.postInGroup.count }}  posts sur le sujet
+        </strong>
+
+    </div>
+    <p class="text-success ">
+        {% if group.members.count <= 1 %}
+        {{ group.members.count }} membre
+        {% else %}
+        {{ group.members.count }} membres
+        {% endif %}
+
+    </p>
+
+    <div class="m-2">
+        {% if  group.creator is same as( currentUser )%}
+
+            <a class="btn text-white btn-primary btn-outline-secondary" href=" {{ path('app_group_single', {
+                'id': group.id
+            }) }} ">
+                Voir le groupe
+            </a>
+        {% else %}
+
+                {% if currentUser.memberOf(group) %}
+                    <a class="btn text-white btn-danger btn-outline-secondary" href=" {{ path('app_group_leave', {
+                        'id': group.id
+                    }) }} ">  Leave the group
+                    </a>
+                    <a class="btn text-white btn-primary btn-outline-secondary" href=" {{ path('app_group_single', {
+                        'id': group.id
+                    }) }} ">
+                        Voir le groupe
+                    </a>
+                {% else %}
+                    <a class="btn text-white btn-success btn-outline-secondary" href=" {{ path('app_group_leave', {
+                        'id': group.id
+                    }) }} ">  Join the group
+                    </a>
+                {% endif %}
+            </a>
+        {% endif %}
+    </div>
+
+</div>

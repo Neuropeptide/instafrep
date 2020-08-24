@@ -1,0 +1,6 @@
+framework:
+  mailer:
+    # Connect to https://mailtrap.io/
+    # username : pierre.guillaume.infrep@gmail.com
+    # password : azeaze
+    dsn: 'smtp://7bc4fdd39cd92c:0a65b0c9a89ecf@smtp.mailtrap.io:2525?encryption=tls&auth_mode=login'

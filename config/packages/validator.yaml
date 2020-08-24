@@ -1,0 +1,12 @@
+framework:
+    validation:
+
+        # La documentation dit que c'est obligatoire, mais ca à l'air de marcher sans !!!
+        enable_annotations: true
+
+        email_validation_mode: html5
+
+        # Enables validator auto-mapping support.
+        # For instance, basic validation constraints will be inferred from Doctrine's metadata.
+#        auto_mapping:
+#            App\Entity\: []

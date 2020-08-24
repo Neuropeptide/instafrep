@@ -1,0 +1,123 @@
+{% extends 'layouts/with-sidebar.html.twig' %}
+
+{% block title %}Profil de {{ user.username }}{% endblock %}
+
+{% block header %}
+    {{ parent() }}
+
+    <div class="jumbotron">
+        <div class="container">
+
+            <h1 class="display-4">Profil de {{ user.username }}<img style="height: 150px;  border-radius: 45%; margin-left: 20px" src="{{ asset('uploads/images/' ~ user.uploadImage) }}" alt="">
+            </h1>
+            <p class="lead">
+                {{ user.fullName }} -
+                {{ date() | date('Y') - user.birthday | date('Y') }} ans
+            </p>
+
+
+            <a href="{{ path('app_user_follow', {'id': user.id }) }}">
+                {% if ( currentUser.doesFollow(user)) %}
+                UnFollow
+                {% elseif (currentUser == user) %}
+
+                {% else %}
+                    Follow Me !
+                {% endif %}
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block mainContent %}
+    {% include 'includes/flashes.html.twig' %}
+
+    {%if ( currentUser.following.contains(user)) or (currentUser == user) %}
+
+        {% include 'post/post_list.html.twig' with { 'posts' : user.posts } %}
+
+    {% else %}
+
+        {% if app.request.hasPreviousSession %}
+            {% for type, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ type }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+
+{% endblock %}
+
+
+{% block sideContent %}
+
+    {%if ( currentUser.following.contains(user)) or (currentUser == user) %}
+
+            
+        {% if currentUser == user %}
+
+            {% if not currentUser.verified %}
+
+                <div class="card bg-warning">
+                    <div class="card-header">
+                        <h5>Resend verification mail</h5>
+                    </div>
+                    <div class="card-body">
+                        <a href="{{ path('app_register_resend') }}" class="text-black-50">Send mail link</a>
+                    </div>
+                </div>
+            {% endif %}
+
+                    
+            <div class="card">
+                <div style=" text-align: center">
+                    <img style="height: 150px;  border-radius: 45%; display: none" src="{{ asset('uploads/images/' ~ app.user.uploadImage) }}" alt="">            
+                </div>
+                <div>
+                    {{ form_start(form) }}
+                        {{ form_row(form.uploadImage) }}
+                        <div class="row">
+                            <div class="col">{{ form_row(form.submit) }}</div>
+                            <div class="col"><a   class="btn btn-danger" href="{{ path("app_delete_profile_picture") }}">
+                                    Delete My Pic !</a></div>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        {% endif %}
+        
+         
+        <div class="card">
+
+            <div class="card-body">
+                <div class="card-title">
+                    <h5>A propos de {{ user.username }}</h5>
+                </div>
+
+                <ul class="list-group">
+                    <li class="list-group-item">Date de naissance : {{ user.birthday | date('d/m/Y') }}</li>
+                    <li class="list-group-item">Inscrit depuis : {{ user.createdAt | date('d/m/Y') }}</li>
+                    <li class="list-group-item">Nombre de posts écrits : {{ user.posts.count }}</li>
+                    <li class="list-group-item">Nombre de posts likés : {{ totalLiked }}</li>
+                </ul>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5>Partager le profil</h5>
+                <input
+                    class="form-control"
+                    type="url"
+                    value="{{ url('app_user_profile_by_slug', { 'slug' : user.slug }) }}"
+                    disabled
+                >
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,51 @@
+<div class="d-flex justify-content-between">
+    <div class="d-flex align-items-center">
+        <div class="post-card-data">
+            <p class="card-text">
+                <i class="far fa-eye"></i>
+                <small class="text-muted">
+                    <strong> {{ post.views}} </strong> Vues
+                </small>
+            </p>
+        </div>
+
+        <div class="post-card-data">
+            <p class="card-text">
+                <i class="far fa-comment-alt"></i>
+                <small class="text-muted">
+                    <strong> {{ post.comments.count }} </strong> Commentaires
+                </small>
+            </p>
+        </div>
+
+        <div class="post-card-data">
+            <p class="card-text">
+
+                <a
+                        class="like {{ app.user and app.user.doesLike(post) ? 'liked' : '' }}"
+                        href="{{ path('app_like_post', {
+                            'id': post.id,
+                            'redirect': app.request.attributes.get('_route'),
+                        }) }}" {# On passe la route actuelle dans le lien pour rediriger après #}
+                >
+                    {% if app.user and app.user.doesLike(post) %}
+                        <i class="fa fa-heart"></i>{# coeur plein #}
+                    {% else %}
+                        <i class="far fa-heart"></i>{# coeur vide #}
+                    {% endif %}
+                </a>
+
+                <small class="text-muted">
+                    <strong>
+                        {{ post.likes }}
+                    </strong> Likes
+                </small>
+            </p>
+        </div>
+
+    </div>
+
+    <div class="post-card-data">
+        <p class="card-text"><small class="text-muted">Publié {{ post.publishedAt | time_ago }}</small></p>
+    </div>
+</div>

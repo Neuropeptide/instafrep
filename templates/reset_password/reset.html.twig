@@ -1,0 +1,18 @@
+{% extends 'layouts/centered.html.twig' %}
+
+{% block title %}Reset your password{% endblock %}
+
+{% block mainContent %}
+    <div class="card">
+        <div class="card-header m-0">
+            <h5>Reset your password</h5>
+        </div>
+        <div class="card-body">
+            {% include 'includes/flashes.html.twig' %}
+            {{ form_start(resetForm) }}
+            {{ form_row(resetForm.plainPassword) }}
+            <button class="btn btn-primary">Reset password</button>
+            {{ form_end(resetForm) }}
+        </div>
+    </div>
+{% endblock %}

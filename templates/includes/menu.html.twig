@@ -1,0 +1,61 @@
+{% set currentRoute = app.request.attributes.get('_route') %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light ">
+    <a class="navbar-brand " href="{{ path('app_homepage') }}">Instafrep</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item {{ currentRoute == 'app_posts_list' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ path('app_posts_list', {'page' : 1, 'limit' : 10 } ) }}">Liste des posts</a>
+            </li>
+            <li class="nav-item {{ currentRoute == 'app_all_users_list' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ path('app_all_users_list') }}">Liste des membres</a>
+            </li>
+            <li class="nav-item {{ currentRoute == 'app_group_list' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ path('app_group_list') }}">Liste des Groupes</a>
+            </li>
+            <li class="nav-item {{ currentRoute == 'app_group_create' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ path('app_group_create') }}">Creer un Groupe</a>
+            </li>
+        </ul>
+        {% if app.user is not empty %}
+            <a href="{{ path('app_notifs_list') }}">
+                <img src="{{ asset('img/bell.svg') }}" alt="" style="height: 24px">
+            </a>
+            <a href="{{ path('app_notifs_list') }}">
+                <span class="badge badge-primary ml-2">{{ app.session.get('nbNotif') }}</span>
+            </a>
+        {% endif %}
+
+
+        <span class="navbar-text">
+
+
+            {% if app.user is not empty %}
+                <div class="btn-group">
+                  <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Salut  {{ app.user.username }}                <img style="  border-radius: 45%; width: 50px" src="{{ asset('uploads/images/' ~ app.user.miniature) }}" alt="">
+ !
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="{{ path('app_current_user_profile') }}">Voir le profil</a>
+                    <a class="dropdown-item" href="{{ path('app_modify_password') }}">Changer de mot de passe</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ path("app_logout") }}">Se déconnecter</a>
+                  </div>
+                </div>
+
+            {% else %}
+                <a href="{{ path('app_login') }}" class="btn btn-outline-primary">Connecte toi</a>
+            {% endif %}
+
+
+        </span>
+    </div>
+</nav>
+
+
+

@@ -1,0 +1,58 @@
+{% extends 'layouts/with-sidebar.html.twig' %}
+
+{% block title %}
+    Instafrep, le réseau social de l'INFREP
+{% endblock %}
+
+{% block mainContent %}
+    <div>
+        {% if mostLikedPost is not empty %}
+            <h3> Populaire en ce moment :</h3>
+            {% include 'post/post_card.html.twig' with { 'post' : mostLikedPost }  %}
+        {% endif %}
+
+        <h3> Les derniers sujets publiés : </h3>
+        {% include 'post/post_list.html.twig' %}
+    </div>
+{% endblock %}
+
+{% block sideContent %}
+
+    {# On envoie les données depuis la home page vers la route "create post"#}
+    {% if app.user is not empty %}
+        <h2>Exprime toi !</h2>
+
+        {% include 'includes/flashes.html.twig' %}
+
+        {{ form(postForm, { 'action': path('app_post_create') }) }}
+    {% else %}
+        {% include "auth/login-form.html.twig" %}
+    {% endif %}
+
+{% endblock %}
+
+
+{% block header %}
+    {{ parent() }}
+
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-4 ">Instafrep</h1>
+            <p class="lead">Plein de code et plein de fun !!</p>
+
+            {% if app.user is empty %}
+                <hr class="my-4">
+                <a
+                        class="btn btn-outline-primary btn-lg"
+                        href="{{ path("app_login") }}"
+                >J'ai déjà un compte</a>
+                <a class="btn btn-primary btn-lg" href="#" role="button">Je m'inscris direct !!</a>
+            {% endif %}
+
+
+        </div>
+    </div>
+
+{% endblock %}
+
+

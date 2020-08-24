@@ -1,0 +1,31 @@
+{% set page = app.request.get('page') %}
+{% set limit = app.request.get('limit') %}
+{% set currentRoute = app.request.attributes.get('_route') %}
+
+{% extends 'layouts/with-sidebar.html.twig' %}
+
+{% block title %}
+    Liste des Posts les plus récents
+{% endblock %}
+
+{% block mainContent %}
+
+    <div>
+
+        <h1>Les derniers posts d'Instafrep</h1>
+        
+        {% include 'pagination/pagination_interface.html.twig' %}
+
+        {% include 'post/post_list.html.twig' with { 'size' : 1000 } %}
+
+        {% include 'pagination/pagination_bar.html.twig' %}
+    </div>
+
+{% endblock %}
+
+{% block sideContent %}
+    <ul>
+        <li>142 posts au total</li>
+        <li>23 post aujourd'hui</li>
+    </ul>
+{% endblock %}

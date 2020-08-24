@@ -1,0 +1,26 @@
+{% extends 'layouts/with-sidebar.html.twig' %}
+
+{% block title %}
+    Liste des utilisateurs
+{% endblock %}
+
+{% block mainContent %}
+
+    <h1>Les {{ users | length }} utilisateurs d'Instafrep </h1>
+
+    <ul class="list-group">
+        {% for user in users %}
+            <li class="list-group-item">
+                <a href="{{ path('app_user_profile_by_slug', { 'slug': user.slug }) }}">
+                    <strong>
+                        <img style=" border-radius: 45%" src="{{ asset('uploads/images/' ~ user.miniature) }}" alt="">
+                        {{ user.username }}
+                    </strong>
+                    ({{ user.fullName }})
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
+

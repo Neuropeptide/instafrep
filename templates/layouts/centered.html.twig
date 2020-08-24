@@ -1,0 +1,16 @@
+{% extends 'layouts/bootstrap.html.twig' %}
+
+{# Layout de page avec le conteneu centré #}
+
+{% block body %}
+
+{#    {% block header %}#}
+{#        {% include 'includes/menu.html.twig' %}#}
+{#    {% endblock %}#}
+
+    <div class="page page-centered d-flex flex-column">
+        {% block mainContent %}
+        {% endblock %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'layouts/with-sidebar.html.twig' %}
+{% block title %}
+   {{ group.name }}
+{% endblock %}
+
+{% block header %}
+   {{ parent() }}
+
+   <div class="jumbotron">
+      <div class="container">
+         {% include 'group/group_card_template.html.twig' %}
+      </div>
+   </div>
+{% endblock %}
+
+{% block mainContent %}
+
+
+
+   {% include 'post/post_list.html.twig' with { 'posts': postInGroup } %}
+
+
+{% endblock %}
+
+{% block sideContent %}
+
+
+   {% if currentUser.memberOf(group) %}
+      <h3>
+         Publiez dans ce groupe :
+      </h3>
+   {{ form(postGroupForm) }}
+    {% else%}
+      <strong>Rejoignez le groupe pour ecrire dedans !</strong>
+
+   {% endif %}
+
+
+<div>
+    <h5 class="text-secondary">
+        Liste des Membres
+    </h5>
+
+   <ul>
+      {% for member in group.members  %}
+         <li>
+            {{ member.userName }}
+         </li>
+      {% endfor %}
+   </ul>
+</div>
+{% endblock %}

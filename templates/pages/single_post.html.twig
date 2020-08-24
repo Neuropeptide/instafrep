@@ -1,0 +1,44 @@
+{% extends 'layouts/with-sidebar.html.twig' %}
+
+{% block header %}
+    {{ parent() }}
+
+    <div class="jumbotron">
+        <div class="container">
+            {% include 'post/post_card.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block mainContent %}
+
+    {% include 'post/post_list.html.twig' with {
+        'posts' : post.comments,
+        'noPostMessage' : "Sois le premier à commenter !"
+    } %}
+
+{% endblock %}
+
+{% block sideContent %}
+
+    <div class="card">
+
+        <div class="card-body">
+
+            <h5>Commente ce Post !</h5>
+
+            {% if app.request.hasPreviousSession %}
+                {% for type, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ type }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+
+            {{ form(commentForm) }}
+        </div>
+    </div>
+
+{% endblock %}
